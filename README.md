@@ -8,7 +8,7 @@ avente tutte le componenti uguali a 1: in altre parole, **b=A*xe**.
 ---
 ## Cholesky
 - Matlab: https://it.mathworks.com/help/matlab/ref/chol.html 
-- Python: https://numpy.org/doc/stable/reference/generated/numpy.linalg.cholesky.html
+- Python: https://scikit-sparse.readthedocs.io/en/latest/cholmod.html
 
 
 ## Graph
