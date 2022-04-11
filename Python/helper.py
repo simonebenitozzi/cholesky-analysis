@@ -3,14 +3,21 @@ from scipy.sparse import linalg as splinalg
 import sys
 import scipy.sparse as sparse
 from scipy.io import mmread
-
+from sksparse.cholmod import cholesky
 
 def readMatrix(filename):
     return mmread(f'Matrix/{filename}.mtx')
 
 
+
+def scikit_sparse_cholesky(A):
+    factor = cholesky(A)
+    x = factor(b)
+    return x
+    
+
 # The input matrix A must be a sparse symmetric positive-definite.
-def sparse_cholesky(A):
+def manual_sparse_cholesky(A):
     """ 
     Scipy does not currently provide a routine for cholesky decomposition of a sparse matrix, 
     and one have to rely on another external package such as scikit.sparse for the purpose.
