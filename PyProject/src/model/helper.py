@@ -4,16 +4,18 @@ import sys
 import scipy.sparse as sparse
 from scipy.io import mmread
 from sksparse.cholmod import cholesky
+from scipy.sparse import csc_matrix
+
+
 
 def readMatrix(filename):
-    return mmread(f'Matrix/{filename}.mtx')
+    return csc_matrix(mmread(f'Matrix/{filename}.mtx'))
 
 
 
 def scikit_sparse_cholesky(A):
     factor = cholesky(A)
-    x = factor(b)
-    return x
+    return factor
     
 
 # The input matrix A must be a sparse symmetric positive-definite.
