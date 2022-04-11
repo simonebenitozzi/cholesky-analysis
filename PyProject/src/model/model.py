@@ -1,17 +1,30 @@
+from pathlib import Path
 from posixpath import dirname
+
 import sys
+import os
 
-sys.path.append(dirname(__file__))
+myDir = os.getcwd()
+sys.path.append(myDir)
 
-from PyProject.src.model.helper import readMatrix, scikit_sparse_cholesky
+path = Path(myDir)
+a = str(path.parent.absolute())
+
+sys.path.append(a)
+
+if __name__ == '__main__':
+    
+    import numpy as np
+    from PyProject.src.model.helper import readMatrix, scikit_sparse_cholesky
+
+    matrix = readMatrix("apache2")
+
+    
+    print(f"\n Matrix Type: {type(matrix)} \n")
+    print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
 
 
+    L = scikit_sparse_cholesky(matrix)
+    
 
-
-matrix = readMatrix("apache2")
-print(f"\n Matrix Type: {type(matrix)} \n")
-print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
-L = scikit_sparse_cholesky(matrix)
-# L = cholesky(matrix, lower=True)
-# L = np.linalg.cholesky(matrix)
-print(L)
+    print(L)
