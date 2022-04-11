@@ -7,7 +7,7 @@ matrix_path = strcat(folder_path, matrix_name);
 load(matrix_path)
 A = Problem.A;
 % spy(A)
-clear Problem matrix_path
+clear Problem matrix_path folder_path matrix_name
 
 % memory usage before execution (after loading matrix)
 before_mem = memory;
