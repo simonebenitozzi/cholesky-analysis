@@ -1,5 +1,5 @@
+import time
 from pathlib import Path
-
 import sys
 import os
 
@@ -14,10 +14,9 @@ a = str(path.parent.absolute())
 sys.path.append(a)
 
 
-from PyProject.src.model.helper import readMatrix, relativeError, scikit_sparse_cholesky, getB
+from PyProject.src.model.helper import computeMemoryUsage, readMatrix, relativeError, scikit_sparse_cholesky, getB
 
-if __name__ == '__main__':
-    
+def main():
     matrix = readMatrix("apache2")
     b = getB(matrix)
     
@@ -34,5 +33,12 @@ if __name__ == '__main__':
     # compute distance 
     dist = relativeError(x)
     print(f"DISTANCE: {dist} \n")
-    
+
+
+if __name__ == '__main__':
+    start_time = time.time()
+    start_memory = computeMemoryUsage()
+    main()
+    print("--- %s memory ---" % (computeMemoryUsage() - start_memory))
+    print("--- %s seconds ---" % (time.time() - start_time))
     

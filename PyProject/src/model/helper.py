@@ -5,6 +5,7 @@ import scipy.sparse as sparse
 from scipy.io import mmread
 from sksparse.cholmod import cholesky
 from scipy.sparse import csc_matrix
+import psutil
 
 
 def getB(matrix):
@@ -65,3 +66,18 @@ def relativeError(a):
     dist = np.linalg.norm(a-1)
     return dist
    
+
+def computeMemoryUsage():
+    # gives an object with many fields
+    return psutil.virtual_memory().used
+    
+
+def runtimeMemoryUsage():
+    # you can have the percentage of used RAM
+    psutil.virtual_memory().percent
+    
+    
+def computeCPUUsage():
+    # gives a single float value
+    psutil.cpu_percent()
+    
