@@ -1,6 +1,7 @@
 from asyncore import write
 import time
 from unicodedata import name
+import re
 
 
 from PyProject.src.Analyze.helper import computeMemoryUsage, convert_size, readMatrix, relativeError, scikit_sparse_cholesky, getB, writeCSV
@@ -9,29 +10,36 @@ from PyProject.src.Analyze.helper import computeMemoryUsage, convert_size, readM
 class Analyze:
     def __init__(self):
         self.__name = None
+        self.__path = None
         self.__error = None
         writeCSV('Name', 'Error', 'Memory', 'Time')  # write header
 
     def __analyze(self):
-        matrix = readMatrix(self.__name)
-        b = getB(matrix)
+        try:
+            matrix = readMatrix(self.__path)
+            b = getB(matrix)
 
-        # print(f"b: ---- \n {b} \n -----")
-        # print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
+            # print(f"b: ---- \n {b} \n -----")
+            # print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
 
-        x = scikit_sparse_cholesky(matrix, b)
-        # print(type(x))
-        # print(f"x: ---- \n {x} \n -----")
+            x = scikit_sparse_cholesky(matrix, b)
+            # print(type(x))
+            # print(f"x: ---- \n {x} \n -----")
+        except Exception:
+            print(f"Failed to analyze {self.__name}")
+            raise Exception
 
         # compute distance
         self.__error = relativeError(x)
         # print(f"DISTANCE: {ERROR} \n")
 
-    def __setName(self, name):
-        self.__name = name
+    def __setNameAndPath(self, path):
+        self.__path = path
+        self.__name = re.search("(\w+).mtx", path).group(1)
+        print(f"Name: {self.__name}")
 
-    def startAnalyze(self, name):
-        self.__setName(name)
+    def startAnalyze(self, path):
+        self.__setNameAndPath(path)
 
         # start
         start_time = time.time()
@@ -45,7 +53,7 @@ class Analyze:
         timeTotal = time.time() - start_time
 
         # write data
-        writeCSV(name, self.__error, memoryUsed, timeTotal)
+        writeCSV(self.__name, self.__error, memoryUsed, timeTotal)
 
         print(
             f"--------------------------- {name} ------------------------ \n")
