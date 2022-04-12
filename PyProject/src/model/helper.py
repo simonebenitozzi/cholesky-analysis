@@ -22,14 +22,14 @@ def readMatrix(filename):
     return csc_matrix(mmread(f'Matrix/{filename}.mtx'))
 
 
-def scikit_sparse_cholesky(A: csc_matrix, b: list):
+def scikit_sparse_cholesky(A: csc_matrix, b):
     """ 
-    
+
     If A is a sparse, symmetric, positive-definite matrix, and b is a matrix 
     or vector (either sparse or dense), then the following code solves the equation Ax=b
-    
+
     """
-    
+
     factor = cholesky(A)
     x = factor(b)
     return x
@@ -56,3 +56,12 @@ def manual_sparse_cholesky(A):
     else:
         sys.exit('The matrix is not positive definite')
 
+
+def relativeError(a):
+    """ 
+    Compute the Euclidean distance between two vectors
+    """
+    
+    dist = np.linalg.norm(a-1)
+    return dist
+   
