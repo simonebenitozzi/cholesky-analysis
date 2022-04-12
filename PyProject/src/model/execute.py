@@ -21,4 +21,7 @@ if __name__ == "__main__":
     dir_list = getListOfFiles(path)
     for name in dir_list:
         print(f"path: {name} \n")
-        analyzing.startAnalyze(name)
+        try:
+            analyzing.startAnalyze(name)
+        except Exception:
+            continue
