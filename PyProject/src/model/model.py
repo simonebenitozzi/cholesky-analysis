@@ -13,18 +13,18 @@ a = str(path.parent.absolute())
 sys.path.append(a)
 
 if __name__ == '__main__':
-    
+
     import numpy as np
-    from PyProject.src.model.helper import readMatrix, scikit_sparse_cholesky
-
-    matrix = readMatrix("apache2")
+    from PyProject.src.model.helper import readMatrix, scikit_sparse_cholesky, getB
 
     
-    print(f"\n Matrix Type: {type(matrix)} \n")
+    matrix = readMatrix("apache2")
+    b = getB(matrix)
+    
+    print(f"b: ---- \n {b} \n -----")
     print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
 
 
-    L = scikit_sparse_cholesky(matrix)
-    
 
-    print(L)
+    x = scikit_sparse_cholesky(matrix, b)
+    print(f"x: ---- \n {x} \n -----")

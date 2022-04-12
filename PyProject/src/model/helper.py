@@ -7,27 +7,44 @@ from sksparse.cholmod import cholesky
 from scipy.sparse import csc_matrix
 
 
+def getB(matrix):
+    """ 
+        xe = [1, 1, 1, 1, 1, 1, 1, 1, 1...]
+        b = A*xe
+    """
+    return matrix.sum(1)  # axis 0 = column, axis 1 = row
+
 
 def readMatrix(filename):
+    """ 
+        Read sparse matrix in csc format.
+    """
     return csc_matrix(mmread(f'Matrix/{filename}.mtx'))
 
 
-
-def scikit_sparse_cholesky(A):
-    factor = cholesky(A)
-    return factor
+def scikit_sparse_cholesky(A: csc_matrix, b: list):
+    """ 
     
+    If A is a sparse, symmetric, positive-definite matrix, and b is a matrix 
+    or vector (either sparse or dense), then the following code solves the equation Ax=b
+    
+    """
+    
+    factor = cholesky(A)
+    x = factor(b)
+    return x
 
-# The input matrix A must be a sparse symmetric positive-definite.
+
 def manual_sparse_cholesky(A):
     """ 
+    The input matrix A must be a sparse symmetric positive-definite.
     Scipy does not currently provide a routine for cholesky decomposition of a sparse matrix, 
     and one have to rely on another external package such as scikit.sparse for the purpose.
     Here I implement cholesky decomposition of a sparse matrix only using scipy functions. 
     Our implementation relies on sparse LU deconposition.
     The following function receives a sparse symmetric positive-definite matrix A 
     and returns a spase lower triangular matrix L such that A = LL^T.
-    
+
     """
 
     n = A.shape[0]
@@ -38,3 +55,4 @@ def manual_sparse_cholesky(A):
         return LU.L.dot(sparse.diags(LU.U.diagonal()**0.5))
     else:
         sys.exit('The matrix is not positive definite')
+
