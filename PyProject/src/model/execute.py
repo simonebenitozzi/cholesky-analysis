@@ -1,6 +1,7 @@
 from pathlib import Path
 import sys
 import os
+
 myDir = os.getcwd()
 sys.path.append(myDir)
 path = Path(myDir)
@@ -11,11 +12,13 @@ sys.path.append(a)
 if __name__ == "__main__":
 
     from PyProject.src.Analyze.analyze import Analyze
+    from PyProject.src.model.helper import getListOfFiles
 
     analyzing = Analyze()
 
     # Get the list of all files and directories
     path = "Matrix/"
-    dir_list = os.listdir(path)
+    dir_list = getListOfFiles(path)
     for name in dir_list:
+        print(f"path: {name} \n")
         analyzing.startAnalyze(name)

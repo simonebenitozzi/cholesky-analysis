@@ -25,7 +25,7 @@ def readMatrix(filename):
     """
         Read sparse matrix in csc format.
     """
-    return csc_matrix(mmread(f'Matrix/{filename}'))
+    return csc_matrix(mmread(filename))
 
 
 def scikit_sparse_cholesky(A: csc_matrix, b):
