@@ -10,56 +10,60 @@ from PyProject.src.Analyze.helper import computeMemoryUsage, convert_size, readM
 class Analyze:
     def __init__(self):
         self.__name = None
-        self.__path = None
         self.__error = None
         self.__memoryUsed = None
         self.__timeTotal = None
         writeCSV('Name', 'Error', 'Memory', 'Time')  # write header
 
-    def __analyze(self):
+    def __analyze(self, path):
         try:
-            matrix = readMatrix(self.__path)
-            b = getB(matrix)
+            matrix = readMatrix(path)
 
-            # print(f"b: ---- \n {b} \n -----")
-            # print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
+            try:
+                b = getB(matrix)
 
-            # start time and memory track
-            start_time = time.time()
-            start_memory = computeMemoryUsage()
+                # print(f"b: ---- \n {b} \n -----")
+                # print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
 
-            x = scikit_sparse_cholesky(matrix, b)
+                # start time and memory track
+                start_time = time.time()
+                start_memory = computeMemoryUsage()
 
-            # stop time and memory track
-            self.__memoryUsed = convert_size(
-                computeMemoryUsage() - start_memory)
-            self.__timeTotal = time.time() - start_time
+                x = scikit_sparse_cholesky(matrix, b)
 
-            # print(type(x))
-            # print(f"x: ---- \n {x} \n -----")
+                # stop time and memory track
+                self.__memoryUsed = convert_size(
+                    computeMemoryUsage() - start_memory)
+                self.__timeTotal = time.time() - start_time
+
+                # print(type(x))
+                # print(f"x: ---- \n {x} \n -----")
+            except Exception:
+                print(f"Failed to read {self.__name}\n")
+                raise Exception
+
         except Exception:
-            print(f"Failed to analyze {self.__name}\n")
+            print(f"Failed to read {self.__name}\n")
             raise Exception
 
         # compute distance
         self.__error = relativeError(x)
         print(f"Error: {self.__error}")
 
-    def __setNameAndPath(self, path):
-        self.__path = path
-        self.__name = re.search("(\w+).mtx", path).group(1)
-        print(f"Name: {self.__name}")
+    def __setName(self, name):
+        self.__name = name.split(".mtx")[0]
 
-    def startAnalyze(self, path):
-        self.__setNameAndPath(path)
+    def startAnalyze(self, path, name):
+        self.__setName(name)
 
         # Analysis
-        self.__analyze()
+        self.__analyze(path)
 
         # write data
         writeCSV(self.__name, self.__error,
                  self.__memoryUsed, self.__timeTotal)
 
+        print(f"Name: {self.__name}")
         print(f"Memory: {self.__memoryUsed}")
         print(f"Seconds: {self.__timeTotal} \n")
         print("####################### END #######################\n \n \n")

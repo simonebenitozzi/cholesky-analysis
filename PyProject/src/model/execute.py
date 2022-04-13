@@ -22,9 +22,9 @@ if __name__ == "__main__":
     for name in dir_list:
 
         print("####################### START #######################\n")
-        print(f"Path: {name}")
+        print(f"Path: {path+name}")
         try:
-            analyzing.startAnalyze(name)
+            analyzing.startAnalyze(path+name, name)
         except Exception:
             print("####################### END #######################\n \n \n")
             continue
