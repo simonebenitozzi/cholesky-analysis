@@ -26,7 +26,7 @@ class Analyze:
             # print(type(x))
             # print(f"x: ---- \n {x} \n -----")
         except Exception:
-            print(f"Failed to analyze {self.__name}")
+            print(f"Failed to analyze {self.__name}\n")
             raise Exception
 
         # compute distance
@@ -55,8 +55,6 @@ class Analyze:
         # write data
         writeCSV(self.__name, self.__error, memoryUsed, timeTotal)
 
-        print(
-            f"--------------------------- {name} ------------------------ \n")
-        print(f"--- memory --- {memoryUsed} \n")
-        print(f"--- seconds ---  {timeTotal}")
-        print(f"---------------------------        ------------------------ \n")
+        print(f"Memory: {memoryUsed} \n")
+        print(f"Seconds: {timeTotal} \n")
+        print("####################### END #######################\n \n \n")

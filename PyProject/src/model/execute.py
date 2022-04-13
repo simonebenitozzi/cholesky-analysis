@@ -20,8 +20,11 @@ if __name__ == "__main__":
     path = "Matrix/"
     dir_list = getListOfFiles(path)
     for name in dir_list:
-        print(f"path: {name} \n")
+
+        print("####################### START #######################\n")
+        print(f"Path: {name}")
         try:
             analyzing.startAnalyze(name)
         except Exception:
+            print("####################### END #######################\n \n \n")
             continue
