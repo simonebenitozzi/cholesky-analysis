@@ -1,3 +1,5 @@
+from platform import uname
+import platform
 import os
 import numpy as np
 from scipy.sparse import linalg as splinalg
@@ -74,11 +76,12 @@ def convert_size(size_bytes):
     return r/(1024*1024)
 
 
-def writeCSV(name, error, memory, time, language=1):
+def writeCSV(name, error, memory, time, **kwargs):
 
     try:
         # csv data
-        data = [name, error, memory, time, language]
+        data = [name, error, memory, time,
+                kwargs['language'], kwargs['operatingSystem']]
 
         path = os.path.join(RESOURCES_DIRECTORY, "Py.csv")
         with open(path, 'a', encoding='UTF8', newline='') as f:
@@ -88,3 +91,25 @@ def writeCSV(name, error, memory, time, language=1):
             writer.writerow(data)
     except Exception:
         raise Exception("WriteCSV error")
+
+
+def getOperatingSystem():
+
+    typeOS = {
+        "Windows": 0,
+        "Linux": 1,
+        "Darwin": 2
+    }
+
+    if in_wsl():
+        return typeOS['Windows']
+
+    plt = platform.system()
+    if plt in typeOS:
+        return typeOS[plt]
+    else:
+        return "NA"
+
+
+def in_wsl() -> bool:
+    return 'microsoft-standard' in uname().release

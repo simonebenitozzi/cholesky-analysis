@@ -4,7 +4,7 @@ from unicodedata import name
 import re
 
 
-from PyProject.src.Analyze.helper import convert_size, endTrackMemory, readMatrix, relativeError, scikit_sparse_cholesky, getB, startTrackMemory, writeCSV
+from PyProject.src.Analyze.helper import convert_size, endTrackMemory, getOperatingSystem, readMatrix, relativeError, scikit_sparse_cholesky, getB, startTrackMemory, writeCSV
 
 
 class Analyze:
@@ -13,7 +13,8 @@ class Analyze:
         self.__error = None
         self.__memoryUsed = None
         self.__timeTotal = None
-        writeCSV('Name', 'Error', 'Memory', 'Time', 'Language')  # write header
+        writeCSV('Name', 'Error', 'Memory', 'Time',
+                 language='Language', operatingSystem='OS')  # write header
 
     def __analyze(self, path):
 
@@ -48,7 +49,7 @@ class Analyze:
 
         # write data
         writeCSV(self.__name, self.__error,
-                 self.__memoryUsed, self.__timeTotal)
+                 self.__memoryUsed, self.__timeTotal, language=1, operatingSystem=getOperatingSystem())
 
         print(f"Name: {self.__name}")
         print(f"Memory: {self.__memoryUsed}")
