@@ -25,6 +25,6 @@ if __name__ == "__main__":
         print(f"Path: {path+name}")
         try:
             analyzing.startAnalyze(path+name, name)
-        except Exception:
-            print("####################### END #######################\n \n \n")
+        except Exception as e:
+            print(e)
             continue

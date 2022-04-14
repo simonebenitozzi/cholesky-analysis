@@ -15,40 +15,38 @@ class Analyze:
         self.__timeTotal = None
         writeCSV('Name', 'Error', 'Memory', 'Time')  # write header
 
-    def __analyze(self, path):
+    def __readMatrix(self, path):
         try:
-            matrix = readMatrix(path)
 
-            try:
-                b = getB(matrix)
-
-                # print(f"b: ---- \n {b} \n -----")
-                # print(f"Matrix: \n ------------------- \n {matrix} \n ---------------- \n")
-
-                # start time and memory track
-                start_time = time.time()
-                start_memory = computeMemoryUsage()
-
-                x = scikit_sparse_cholesky(matrix, b)
-
-                # stop time and memory track
-                self.__memoryUsed = convert_size(
-                    computeMemoryUsage() - start_memory)
-                self.__timeTotal = time.time() - start_time
-
-                # print(type(x))
-                # print(f"x: ---- \n {x} \n -----")
-            except Exception:
-                print(f"Failed to read {self.__name}\n")
-                raise Exception
+            return readMatrix(path)
 
         except Exception:
-            print(f"Failed to read {self.__name}\n")
-            raise Exception
+            raise Exception(f"Failed to read {self.__name}\n")
+
+    def __analyze(self, path):
+
+        matrix = self.__readMatrix(path)  # read matrix
+        b = getB(matrix)  # get b = A*xe
+
+        # start time and memory track
+        start_time = time.time()
+        start_memory = computeMemoryUsage()
+        ###########################
+
+        # CHOLESKY
+        try:
+            x = scikit_sparse_cholesky(matrix, b)
+        except Exception:
+            raise Exception(f"Failed to execute cholesky on {self.__name}\n")
+        ##########################
+
+        # stop time and memory track
+        self.__memoryUsed = computeMemoryUsage() - start_memory
+        self.__timeTotal = time.time() - start_time
+        ##########################
 
         # compute distance
         self.__error = relativeError(x)
-        print(f"Error: {self.__error}")
 
     def __setName(self, name):
         self.__name = name.split(".mtx")[0]
@@ -66,4 +64,5 @@ class Analyze:
         print(f"Name: {self.__name}")
         print(f"Memory: {self.__memoryUsed}")
         print(f"Seconds: {self.__timeTotal} \n")
+        print(f"Error: {self.__error}")
         print("####################### END #######################\n \n \n")
