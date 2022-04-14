@@ -21,6 +21,9 @@ if __name__ == "__main__":
     dir_list = getListOfFiles(path)
     for name in dir_list:
 
+        if name.endswith(".mat"):  # exclude .mat file
+            continue
+
         print("####################### START #######################\n")
         print(f"Path: {path+name}")
         try:
