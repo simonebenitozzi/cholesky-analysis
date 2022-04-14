@@ -15,7 +15,7 @@ import tracemalloc
 
 from sympy import true
 
-from PyProject.src.resources.costants import RESOURCES_DIRECTORY
+from Analysis.resources.costants import RESOURCES_DIRECTORY
 
 
 def getB(matrix):
