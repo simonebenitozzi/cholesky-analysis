@@ -4,7 +4,7 @@ from unicodedata import name
 import re
 
 
-from PyProject.src.Analyze.helper import computeMemoryUsage, convert_size, readMatrix, relativeError, scikit_sparse_cholesky, getB, writeCSV
+from PyProject.src.Analyze.helper import convert_size, endTrackMemory, readMatrix, relativeError, scikit_sparse_cholesky, getB, startTrackMemory, writeCSV
 
 
 class Analyze:
@@ -15,33 +15,22 @@ class Analyze:
         self.__timeTotal = None
         writeCSV('Name', 'Error', 'Memory', 'Time')  # write header
 
-    def __readMatrix(self, path):
-        try:
-
-            return readMatrix(path)
-
-        except Exception:
-            raise Exception(f"Failed to read {self.__name}\n")
-
     def __analyze(self, path):
 
-        matrix = self.__readMatrix(path)  # read matrix
+        matrix = readMatrix(path)  # read matrix
         b = getB(matrix)  # get b = A*xe
 
         # start time and memory track
         start_time = time.time()
-        start_memory = computeMemoryUsage()
+        startTrackMemory()
         ###########################
 
         # CHOLESKY
-        try:
-            x = scikit_sparse_cholesky(matrix, b)
-        except Exception:
-            raise Exception(f"Failed to execute cholesky on {self.__name}\n")
+        x = scikit_sparse_cholesky(matrix, b)
         ##########################
 
         # stop time and memory track
-        self.__memoryUsed = computeMemoryUsage() - start_memory
+        self.__memoryUsed = convert_size(endTrackMemory())
         self.__timeTotal = time.time() - start_time
         ##########################
 
