@@ -78,7 +78,7 @@ def writeCSV(name, error, memory, time):
 
     try:
         # csv data
-        data = [name, error, memory, time]
+        data = [name, error, memory, time, 1]
 
         path = os.path.join(RESOURCES_DIRECTORY, "Py.csv")
         with open(path, 'a', encoding='UTF8', newline='') as f:
