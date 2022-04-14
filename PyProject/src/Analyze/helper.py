@@ -74,11 +74,11 @@ def convert_size(size_bytes):
     return r/(1024*1024)
 
 
-def writeCSV(name, error, memory, time):
+def writeCSV(name, error, memory, time, language=1):
 
     try:
         # csv data
-        data = [name, error, memory, time, 1]
+        data = [name, error, memory, time, language]
 
         path = os.path.join(RESOURCES_DIRECTORY, "Py.csv")
         with open(path, 'a', encoding='UTF8', newline='') as f:

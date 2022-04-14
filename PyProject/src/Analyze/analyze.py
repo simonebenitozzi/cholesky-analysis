@@ -13,7 +13,7 @@ class Analyze:
         self.__error = None
         self.__memoryUsed = None
         self.__timeTotal = None
-        writeCSV('Name', 'Error', 'Memory', 'Time')  # write header
+        writeCSV('Name', 'Error', 'Memory', 'Time', 'Language')  # write header
 
     def __analyze(self, path):
 
