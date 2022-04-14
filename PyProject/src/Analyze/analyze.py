@@ -54,4 +54,3 @@ class Analyze:
         print(f"Memory: {self.__memoryUsed}")
         print(f"Seconds: {self.__timeTotal} \n")
         print(f"Error: {self.__error}")
-        print("####################### END #######################\n \n \n")

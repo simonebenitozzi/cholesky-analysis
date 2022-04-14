@@ -46,8 +46,8 @@ def scikit_sparse_cholesky(A: csc_matrix, b):
         factor = cholesky(A)
         x = factor(b)
         return x
-    except Exception:
-        raise Exception(f"Failed to execute cholesky\n")
+    except Exception as e:
+        raise Exception(f"Failed to execute cholesky\n Error Type: {e}")
 
 
 def relativeError(a):
