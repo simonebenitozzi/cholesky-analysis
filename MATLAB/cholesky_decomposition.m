@@ -1,7 +1,8 @@
 clear all, close all, clc
 
+cd ..
 current_path = pwd;
-files = dir(strcat(current_path, '\matrix\*.mat'));
+files = dir(strcat(current_path, '\Matrix\*.mat'));
 N = length(files);
 
 % data preallocation
