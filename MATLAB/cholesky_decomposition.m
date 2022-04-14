@@ -4,6 +4,7 @@ cd ..
 current_path = pwd;
 files = dir(strcat(current_path, '\Matrix\*.mat'));
 N = length(files);
+cd MATLAB
 
 % data preallocation
 data = strings(N+1, 4);
