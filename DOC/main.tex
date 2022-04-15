@@ -2,6 +2,8 @@
 
 \usepackage{report}
 
+\usepackage{caption}
+
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[italian]{babel}
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -123,82 +125,17 @@
 \section{Introduzione}
 TODO: Introduzione
 
-\begin{lstlisting}[language=Python, caption=Python Code Example]
-import os
-
-import cv2
-import numpy as np
-
-from src.costants import SPRITE_PATH
-
-TESTS_PATH = os.path.dirname(__file__)
-LOGS_PATH = os.path.join(TESTS_PATH, 'logs')
-MAP_PATH = os.path.join(TESTS_PATH, 'map')
-
-img_rgb = cv2.imread(os.path.join(MAP_PATH, "Matrix1.png"))
-img = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
-template = cv2.imread(os.path.join(SPRITE_PATH, "yellow.png"), 0)
-
-w, h = template.shape[::-1]
-
-res = cv2.matchTemplate(img, template, cv2.TM_CCOEFF_NORMED)
-threshold = 0.85
-loc = np.where(res >= threshold)
-for pt in zip(*loc[::-1]):
-    cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-
-cv2.imwrite(os.path.join(TESTS_PATH, 'res.png'), img_rgb)
-\end{lstlisting}
-
-\begin{lstlisting}[language=Matlab, caption=Matlab Code Example]
-clear all, close all, clc
-
-% --- matrix loading
-folder_path = '';
-matrix_name = 'ex15.mat';
-matrix_path = strcat(folder_path, matrix_name);
-load(matrix_path)
-A = Problem.A;
-% spy(A)
-clear Problem matrix_path folder_path matrix_name
-
-% memory usage before execution (after loading matrix)
-before_mem = memory;
-
-% problem parameters
-xe = ones(size(A, 1), 1);
-b = A*xe;
-
-% --- system solving
-
-tic %starts timing
-% Cholesky decomposition
-R = chol(A);
-
-% solution computing
-x = R\(R'\b);
-
-time = toc; % ends timing
-fprintf("Time elapsed: %f seconds\n", time)
-
-% --- memory usage estimation
-after_mem = memory;
-mem_difference = after_mem.MemUsedMATLAB-before_mem.MemUsedMATLAB;
-mem_difference_mb = mem_difference*1e-6;
-fprintf("\nTotal memory used: %e bytes (%f MB)\n", mem_difference, mem_difference_mb)
-
-% --- error estimation
-err = norm(x - xe, 2) / norm(xe, 2);
-fprintf("\nRelative error: %e\nepsilon: %e\n", err, eps(1))
-\end{lstlisting}
 
 
 
 
 
+\section{Descrizione del dominio di riferimento e obiettivi dell’elaborato} % cholesky 
 
-\section{Descrizione del dominio di riferimento e obiettivi dell’elaborato}
-\section{Scelte di design}
+\section{Scelte di design} % presentiamo il codice
+\subsection{Matlab}
+TODO: Come ho fatto il matlab?
+\subsection{Python}
 Per gestire al meglio la giusta separazione tra gli elementi del progetto si è deciso di sfruttare un particolare pattern strutturale definito dallo schema sottostante. Il modello, cattura il comportamento dell'applicazione in termini di dominio del problema e gestisce direttamente i dati, la logica e le regole del progetto. 
 
 
@@ -254,11 +191,29 @@ Per gestire al meglio la giusta separazione tra gli elementi del progetto si è 
 ]
 \end{forest}\\
 
-\section{Descrizione dei Dati}
+\include{Sections/DescriptionData}
+
+\section{Risulti Sperimentali}
+\subsection{Flan-1565}
+\paragraph{Windows and Python}
+ciao
+\paragraph{Windows and Matlab}
+
+\paragraph{Linux and Python}
+\paragraph{Linux and Matlab}
+% qual è stata la scelta migliore?
+
+\subsection{StocF-1465}
+\subsection{cfd2}
+\subsection{cfd1}
+\subsection{G3-circuit}
+\subsection{parabolic fem} 
+\subsection{apache2}
+\subsection{shallow water1}
+\subsection{ex15}
 
 
-
-
+\section*{Conclusioni}
 
 
 
