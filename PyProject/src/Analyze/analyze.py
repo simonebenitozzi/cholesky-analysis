@@ -1,10 +1,7 @@
-from asyncore import write
 import time
-from unicodedata import name
-import re
 
-
-from PyProject.src.Analyze.helper import convert_size, endTrackMemory, getOperatingSystem, readMatrix, relativeError, scikit_sparse_cholesky, getB, startTrackMemory, writeCSV
+from PyProject.src.Analyze.helper import convert_size, endTrackMemory, getOperatingSystem, readMatrix, relativeError, \
+    scikit_sparse_cholesky, getB, startTrackMemory, writeCSV
 
 
 class Analyze:
@@ -13,12 +10,18 @@ class Analyze:
         self.__error = None
         self.__memoryUsed = None
         self.__timeTotal = None
-        writeCSV('Name', 'Error', 'Memory', 'Time',
-                 language='Language', operatingSystem='OS')  # write header
+        self.__rows = None
+        self.__cols = None
+        writeCSV(name='Name', rows="Rows", columns="Columns",
+                 error='Error', memory='Memory',
+                 time='Time', language='Language',
+                 operatingSystem='OS')  # write header
 
     def __analyze(self, path):
-
         matrix = readMatrix(path)  # read matrix
+        self.__rows = matrix.get_shape()[0]
+        self.__cols = matrix.get_shape()[1]
+
         b = getB(matrix)  # get b = A*xe
 
         # start time and memory track
@@ -48,8 +51,10 @@ class Analyze:
         self.__analyze(path)
 
         # write data
-        writeCSV(self.__name, self.__error,
-                 self.__memoryUsed, self.__timeTotal, language=1, operatingSystem=getOperatingSystem())
+
+        writeCSV(name=self.__name, rows=self.__rows, columns=self.__cols,
+                 error=self.__error, memory=self.__memoryUsed,
+                 time=self.__timeTotal, language=1, operatingSystem=getOperatingSystem())
 
         print(f"Name: {self.__name}")
         print(f"Memory: {self.__memoryUsed}")
