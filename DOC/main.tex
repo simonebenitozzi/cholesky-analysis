@@ -1,9 +1,14 @@
 \documentclass[11pt]{article}
 
+%TODO
+\usepackage{xcolor}
+\newcommand\myworries[1]{\textcolor{red}{#1}}
+%%
+
+
 \usepackage{report}
-
 \usepackage{caption}
-
+\usepackage{float}
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[italian]{babel}
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -85,7 +90,7 @@
 
 \author{
   \Large\textbf{Mario Avolio}\\
-  \texttt{800995}
+  \texttt{880995}
   \and
   \Large\textbf{Simone Benitozzi}\\
   \texttt{889407}
@@ -112,108 +117,31 @@
 \begin{document}
 \maketitle
 
+
 \newpage
+\thispagestyle{empty}
 \tableofcontents
-\thispagestyle{empty}
 
 \newpage
 \thispagestyle{empty}
+\listoffigures
 
 
 \newpage
+\thispagestyle{empty}
+\listoftables
+
+
+\newpage
+\thispagestyle{empty}
 \setcounter{page}{1}
-\section{Introduzione}
-TODO: Introduzione
 
-
-
-
-
-
-\section{Descrizione del dominio di riferimento e obiettivi dell’elaborato} % cholesky 
-
-\section{Scelte di design} % presentiamo il codice
-\subsection{Matlab}
-TODO: Come ho fatto il matlab?
-\subsection{Python}
-Per gestire al meglio la giusta separazione tra gli elementi del progetto si è deciso di sfruttare un particolare pattern strutturale definito dallo schema sottostante. Il modello, cattura il comportamento dell'applicazione in termini di dominio del problema e gestisce direttamente i dati, la logica e le regole del progetto. 
-
-
-\begin{forest}
-  for tree={
-    font=\ttfamily,
-    grow'=0,
-    child anchor=west,
-    parent anchor=south,
-    anchor=west,
-    calign=first,
-    edge path={
-      \noexpand\path [draw, \forestoption{edge}]
-      (!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
-    },
-    before typesetting nodes={
-      if n=1
-        {insert before={[,phantom]}}
-        {}
-    },
-    fit=band,
-    before computing xy={l=15pt},
-  }
-[Customer Personality Analysis Project
-  [ML-Porject.Rproj]
-  [Data
-    [marketing\_campaign.csv]
-  ]
-  [DOC
-    [Presentation
-    [...]]
-    [Report
-    [...]]
-  ]
-  [Script
-  [D-TREE.R]
-  [DescriptionOfData.R]
-  [EDA.R]
-  [K-MEANS.R]
-  [PCA.R]
-  [D-TREE-Model Evaluation.R]
-  [Functions
-  [Functions.R]]
-  ]
-  [Output
-  [Plots
-  [...]]
-  [Data
-  [...]]]
-  [Other
-  [...]]
-  [README.MD]
-]
-\end{forest}\\
-
+\include{Sections/Intro}
+\include{Sections/Domain}
+\include{Sections/Design}
 \include{Sections/DescriptionData}
-
-\section{Risulti Sperimentali}
-\subsection{Flan-1565}
-\paragraph{Windows and Python}
-ciao
-\paragraph{Windows and Matlab}
-
-\paragraph{Linux and Python}
-\paragraph{Linux and Matlab}
-% qual è stata la scelta migliore?
-
-\subsection{StocF-1465}
-\subsection{cfd2}
-\subsection{cfd1}
-\subsection{G3-circuit}
-\subsection{parabolic fem} 
-\subsection{apache2}
-\subsection{shallow water1}
-\subsection{ex15}
-
-
-\section*{Conclusioni}
+\include{Sections/Results}
+\include{Sections/Conclusion}
 
 
 

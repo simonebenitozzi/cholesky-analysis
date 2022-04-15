@@ -1,0 +1,68 @@
+\section{Scelte di design} % presentiamo il codice
+\myworries{come procediamo? dobbiamo descrivere qui a grandi linee cosa si vuole avere da python e matlab (file .csv) per poi analizzarli. }
+
+\subsection{Matlab}
+\myworries{Come ho fatto il matlab? Puoi usare lstinputlisting per inserire codice matlab (già gestito da me nella sintassi di latex) }
+
+\subsection{Python}
+Per gestire al meglio la giusta separazione tra gli elementi del progetto si è deciso di sfruttare un particolare pattern strutturale definito dallo schema sottostante. Il modello, cattura il comportamento dell'applicazione in termini di dominio del problema e gestisce direttamente i dati, la logica e le regole del progetto. \\ Nella seguente trattazione, al fine di evitare panoramiche fuori focus, si vogliono sottolineare solo gli aspetti fondamentali utilizzati per eseguire l'analisi dei dati proposti.
+
+
+\begin{forest}
+  for tree={
+    font=\ttfamily,
+    grow'=0,
+    child anchor=west,
+    parent anchor=south,
+    anchor=west,
+    calign=first,
+    edge path={
+      \noexpand\path [draw, \forestoption{edge}]
+      (!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
+    },
+    before typesetting nodes={
+      if n=1
+        {insert before={[,phantom]}}
+        {}
+    },
+    fit=band,
+    before computing xy={l=15pt},
+  }
+[PythonProject
+   [src
+      [Analyze
+          [\_\_init\_\_.py]
+          [analyze.py]
+          [helper.py]
+      ]
+      [Model
+          [\_\_init\_\_.py]
+          [execute.py]
+          [helper.py]
+      ]
+      [\_\_init\_\_.py]
+      [costants.py]
+    ]
+]
+\end{forest}\\
+
+\paragraph{La classe Analyze}
+Il package \textbf{Analyze} si occupa principalmente di andare ad applicare ad una spefica matrice il metodo di \textbf{Cholesky}. Il codice \ref{AnalyzeClass} riporta l'implementazione della classe fondamentale situata nel file \textbf{analyze.py}.
+
+\lstinputlisting[language=Python, caption= Analyze Class, label=AnalyzeClass]{CODE/Py/Analyze.py}
+
+Come si può notare essa racchiude le parti fondamentali dell'analisi effettuata, in particolar modo si vuole sottolineare l'importanza della funzione \textbf{\_\_analyze(self, path)}. Essa prevede in input il \textit{path} dov'è situata la matrice da leggere. La funzione esegue i seguenti step:
+\begin{enumerate}
+    \item Lettura della Matrice
+    \item Inizio dell'analisi sulla memoria occupata e sul tempo impiegato.
+    \item Esecuzione del metodo di Cholesky
+    \item Fine dell'analisi sulla memoria occupata e sul tempo impiegato.
+    \item Calcolo dell'errore relativo rispetto alla soluzione fornita di default.
+\end{enumerate}
+Come si può facilmente notare dal codice \ref{AnalyzeClass}, si è predisposto il tutto per scrivere i risultati ottenuti in tabelle \textit{*.csv}, al fine di facilitarne l'analisi futura.
+
+\paragraph{L'utilizzo di \textit{Scikit-Sparse}}
+Python fornisce librerie di default per trattare matrici con il metodo di Cholesky, tra esse è doveroso nominare \textbf{Numpy}~(\cite{harris2020array}) e \textbf{SciPy}~(\cite{2020SciPy-NMeth}). Sfortunatamente queste librerie non foniscono un metodo diretto per analizzare \textbf{matrici sparse}, per cui la scelta è ricaduta su una libreria \textbf{open-source} chiamata \textbf{\href{https://scikit-sparse.readthedocs.io/en/latest/}{Scikit-Sparse}}. Essa si basa su \textit{SciPy.Sparse} ma, al contrario di quest'ultima, offre funzioni veloci ed efficienti per trattare matrici sparse con Cholesky. Il codice \ref{scikitsparsecholesky} mostra l'implementazione effettuata tramite l'utilizzo della libreria sopra indicata. Si noti che tale funzione viene richiamata dal metodo \_\_analyze(self, path) a riga \textit{21}.
+
+\lstinputlisting[language=Python, caption= scikit\_sparse\_cholesky function, label=scikitsparsecholesky]{CODE/Py/scikitSparse.py}
+
