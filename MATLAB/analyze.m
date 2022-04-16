@@ -9,8 +9,9 @@ function [error, mem, time] = analyze(matrix_path)
 % Outputs:
 %   error: the relative error between the expected result and the computed
 %       result
-%   mem: the difference in memory used by MATLAB between right after the
-%       matrix is loaded and after the linear system solution is computed
+%   mem: the difference in memory (expressed in MB) used by MATLAB between 
+%       right after thematrix is loaded and after the linear system 
+%       solution is computed
 %   time: the number of seconds required to compute the solution
 
     load(matrix_path, 'Problem');
@@ -47,6 +48,7 @@ function [error, mem, time] = analyze(matrix_path)
     % --- memory usage estimation
     after_mem = memory;
     mem_difference_bytes = after_mem.MemUsedMATLAB-before_mem.MemUsedMATLAB;
+    %conversion in MegaBytes
     mem = mem_difference_bytes*1e-6;
     
 end
