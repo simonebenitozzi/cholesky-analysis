@@ -2,13 +2,17 @@ clear all, close all, clc %#ok<CLALL,DUALC>
 
 cd ..
 prev_path = pwd;
-files = dir(strcat(prev_path, '\Matrix\*.mat'));
+if (ispc)
+    files = dir(strcat(prev_path, '\Matrix\*.mat'));
+    filename = strcat(prev_path, '\Analysis\resources\', 'data.csv');
+else
+    files = dir(strcat(prev_path, '/Matrix/*.mat'));
+    filename = strcat(prev_path, '/Analysis/resources/', 'data.csv');
+end
 cd MATLAB
 
 %data = ["name", "rows", "columns", "error", "memory", "time", "language", "operatingSystem"];
 %writematrix(data, filename);
-
-filename = strcat(prev_path, '\Analysis\resources\', 'data.csv');
 
 clearvars -except files filename
 for i=1:length(files)
