@@ -33,7 +33,7 @@ function [error, mem, time] = analyze(A)
     catch
         [~, pid] = system('pgrep MATLAB');
         [~, mem_usage] = system(['cat /proc/' strtrim(pid) '/status | grep VmSize']);
-        before_mem = round(str2double(strtrim(extractAfter(extractBefore(mem_usage, ' kB'), ':'))) / 1000);
+        before_mem = str2double(strtrim(extractAfter(extractBefore(mem_usage, ' kB'), ':'))) / 1000;
     end
 
     % problem parameters
@@ -74,7 +74,7 @@ function [error, mem, time] = analyze(A)
     catch
         [~, pid] = system('pgrep MATLAB');
         [~, mem_usage] = system(['cat /proc/' strtrim(pid) '/status | grep VmSize']);
-        after_mem = round(str2double(strtrim(extractAfter(extractBefore(mem_usage, ' kB'), ':'))) / 1000);
+        after_mem = str2double(strtrim(extractAfter(extractBefore(mem_usage, ' kB'), ':'))) / 1000;
 
         mem = after_mem - before_mem;
     end

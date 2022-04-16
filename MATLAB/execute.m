@@ -19,7 +19,12 @@ for i=1:length(files)
     
     fprintf("-----------------------------------\n");
 
-    load(strcat(files(i).folder, '\', files(i).name), 'Problem');
+    if(ispc)
+        load(strcat(files(i).folder, '\', files(i).name), 'Problem');
+    else
+        load(strcat(files(i).folder, '/', files(i).name), 'Problem');
+    end
+    
     A = Problem.A;
     clear Problem
     
