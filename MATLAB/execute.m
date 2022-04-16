@@ -24,20 +24,17 @@ for i=1:length(files)
     
     [error, mem, time] = analyze(A);
     
-    if (~isnan(error))
+    if (~isnan(error) || ~isnan(time) || ~isnan(mem))
         fprintf("\nRelative error: %e\n", error)
-    end
-    if (~isnan(time))
         fprintf("Time elapsed: %f seconds\n", time)
-    end
-    if (~isnan(mem))
         fprintf("Total memory used by MATLAB: %f MB\n", mem)
+
+        % "os" column will be 0 for Windows, 1 otherwise
+        data = [matrix_name, string(size(A,1)), string(size(A,2)), string(error), string(mem), string(time), string(0), string(double(~ispc))];
+        writematrix(data,filename,'WriteMode','append');
     end
+
     fprintf("-----------------------------------\n\n");
-    
-    % "os" column will be 0 for Windows, 1 otherwise
-    data = [matrix_name, string(size(A,1)), string(size(A,2)), string(error), string(mem), string(time), string(0), string(double(~ispc))];
-    writematrix(data,filename,'WriteMode','append');
     
     % clear all variables except the ones needed for the iteration
     clearvars -except files filename i
