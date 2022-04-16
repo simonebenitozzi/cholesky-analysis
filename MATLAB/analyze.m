@@ -60,12 +60,12 @@ function [error, mem, time] = analyze(A)
         return
     end
 
-    % --- error estimation
-    error = norm(x - xe, 2) / norm(xe, 2);
-    
     % --- memory usage estimation
     after_mem = memory;
     % difference and MB conversion
     mem = (after_mem.MemUsedMATLAB - before_mem.MemUsedMATLAB) * 1e-6;
-    
+
+    % --- error estimation
+    error = norm(x - xe, 2) / norm(xe, 2);
+
 end
