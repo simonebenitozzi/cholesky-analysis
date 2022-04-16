@@ -3,68 +3,36 @@ clear all, close all, clc
 cd ..
 current_path = pwd;
 files = dir(strcat(current_path, '\Matrix\*.mat'));
-N = length(files);
 cd MATLAB
 
-% data preallocation
-data = strings(N+1, 4);
-data(1,:) = ["name", "error", "memory", "time"];
+data = ["name", "error", "memory", "time", "language", "os"];
+filename = 'matlab.csv';
+writematrix(data, filename);
 
-for i=1:N
-    fprintf("-----------------------------------\n");
+clearvars -except files filename
+for i=1:length(files)
     
-    % --- matrix loading
+    fprintf("-----------------------------------\n");
+
     folder_path = files(i).folder;
     matrix_name = files(i).name;
     matrix_path = strcat(folder_path, '\', matrix_name);
-    load(matrix_path)
-    A = Problem.A;
-    % spy(A)
     
     [~, matrix_name, ~] = fileparts(matrix_name);
     fprintf("Matrix: %s\n", matrix_name);
-    clear Problem matrix_path folder_path
-
-    % memory usage before execution (after loading matrix)
-    before_mem = memory;
-
-    % problem parameters
-    xe = ones(size(A, 1), 1);
-    b = A*xe;
-
-    % --- system solving
-
-    try
-        tic %starts timing
-        % Cholesky decomposition
-
-        R = chol(A);
-
-        % solution computing
-        x = R\(R'\b);
-
-        time = toc; % ends timing
-        fprintf("Time elapsed: %f seconds\n", time)
-
-    catch exception
-        fprintf("Error: %s\n", exception.identifier)
-        
-        data(i+1,:) = [matrix_name, "", "", ""];
-        continue
-    end
     
-    % --- error estimation
-    err = norm(x - xe, 2) / norm(xe, 2);
-    fprintf("\nRelative error: %e\nepsilon: %e\n", err, eps(1))
-
-    % --- memory usage estimation
-    after_mem = memory;
-    mem_difference = after_mem.MemUsedMATLAB-before_mem.MemUsedMATLAB;
-    mem_difference_mb = mem_difference*1e-6;
-    fprintf("\nTotal memory used by MATLAB: %e bytes (%f MB)\n", mem_difference, mem_difference_mb)
-    fprintf("-----------------------------------\n\n\n");
+    [error, mem, time] = analyze(matrix_path);
     
-    data(i+1, :) = [matrix_name, string(err), string(mem_difference_mb), string(time)];
+    fprintf("\nRelative error: %e\n", error)
+    fprintf("Time elapsed: %f seconds\n", time)
+    fprintf("Total memory used by MATLAB: %f MB\n", mem)
+
+    fprintf("-----------------------------------\n\n");
+    
+    % "os" column will be 0 for Windows, 1 otherwise
+    data = [matrix_name, string(error), string(mem), string(time), string(0), string(double(~ispc))];
+    writematrix(data,filename,'WriteMode','append');
+    
+    % clear all variables except the ones needed for the iteration
+    clearvars -except files filename i
 end
-
-writematrix(data, 'matlab.csv')
