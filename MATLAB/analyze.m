@@ -1,10 +1,10 @@
-function [error, mem, time] = analyze(matrix_path)
+function [error, mem, time] = analyze(A)
 
-% Analyzes the Cholesky decomposition on sparse Matrix, whose path is given
+% Analyzes the Cholesky decomposition on the sparse Matrix given
 % in input
 %
 % Inputs:
-%   matrix_path: full path of the file containing the matrix to be analyzed
+%   A: the Matrix to be analyzed
 %
 % Outputs:
 %   error: the relative error between the expected result and the computed
@@ -14,9 +14,18 @@ function [error, mem, time] = analyze(matrix_path)
 %       solution is computed
 %   time: the number of seconds required to compute the solution
 
-    load(matrix_path, 'Problem');
-    A = Problem.A;
-    clear Problem matrix_path
+    try
+        % checks if the input matrix A is sparse
+        if(~issparse(A))
+            err = MException('analyze:NoSparse', ...
+                    'Invalid Input. The matrix given in input is not Sparse');
+                throw(err);
+        end
+    catch exception
+        fprintf("Error: %s\n", exception.identifier)
+        error = NaN; mem = NaN; time = NaN;
+        return
+    end
     
     % memory usage before execution (after loading matrix)
     before_mem = memory;
@@ -56,8 +65,7 @@ function [error, mem, time] = analyze(matrix_path)
     
     % --- memory usage estimation
     after_mem = memory;
-    mem_difference_bytes = after_mem.MemUsedMATLAB-before_mem.MemUsedMATLAB;
-    %conversion in MegaBytes
-    mem = mem_difference_bytes*1e-6;
+    % difference and MB conversion
+    mem = (after_mem.MemUsedMATLAB - before_mem.MemUsedMATLAB) * 1e-6;
     
 end

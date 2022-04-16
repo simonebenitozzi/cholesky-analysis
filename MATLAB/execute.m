@@ -1,4 +1,4 @@
-clear all, close all, clc
+clear all, close all, clc %#ok<CLALL,DUALC> 
 
 cd ..
 current_path = pwd;
@@ -14,14 +14,14 @@ for i=1:length(files)
     
     fprintf("-----------------------------------\n");
 
-    folder_path = files(i).folder;
-    matrix_name = files(i).name;
-    matrix_path = strcat(folder_path, '\', matrix_name);
+    load(strcat(files(i).folder, '\', files(i).name), 'Problem');
+    A = Problem.A;
+    clear Problem
     
-    [~, matrix_name, ~] = fileparts(matrix_name);
+    [~, matrix_name, ~] = fileparts(files(i).name);
     fprintf("Matrix: %s\n", matrix_name);
     
-    [error, mem, time] = analyze(matrix_path);
+    [error, mem, time] = analyze(A);
     
     fprintf("\nRelative error: %e\n", error)
     fprintf("Time elapsed: %f seconds\n", time)
