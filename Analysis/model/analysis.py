@@ -1,22 +1,13 @@
-import os
-import sys
-from pathlib import Path
+import pandas as pd
 
 from Analysis.model.helper import read_data
-
-myDir = os.getcwd()
-sys.path.append(myDir)
-path = Path(myDir)
-a = str(path.parent.absolute())
-sys.path.append(a)
 
 
 def main():
     data1 = read_data("data.csv")
     data2 = read_data("data2.csv")
-    data = data1.join(data2)
-
-    print(data.head())
+    data = pd.merge(data1, data2, left_on='Name', right_on='Name')
+    print(data)
 
 
 if __name__ == "__main__":
