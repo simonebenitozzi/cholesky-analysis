@@ -10,7 +10,7 @@ function [error, mem, time] = analyze(matrix_path)
 %   error: the relative error between the expected result and the computed
 %       result
 %   mem: the difference in memory (expressed in MB) used by MATLAB between 
-%       right after thematrix is loaded and after the linear system 
+%       right after the matrix is loaded and after the linear system 
 %       solution is computed
 %   time: the number of seconds required to compute the solution
 
@@ -29,12 +29,21 @@ function [error, mem, time] = analyze(matrix_path)
     try
         tic %starts timing
         
-        % Cholesky decomposition
-        [R] = chol(A);
+        % Cholesky decomposition (the input matrix A needs to be sparse to apply the amd Permutation)
+        [R, flag, P] = chol(A);
+        
+        % flag checks if A is a Definite Positive Matrix
+        if(flag ~= 0)
+                err = MException('analyze:NoSPD', ...
+                    'Invalid Input. The matrix given in input is not a Positive Definite');
+                throw(err);
+        end
 
-        % solution computing
-        x = R\(R'\b);
-
+        % --- solution computing
+        
+        % x = R\(R'\b); % Solution without using the permutation matrix (inefficient)
+        x = P*(R\(R'\(P'*b)));
+        
         time = toc; % ends timing
     catch exception
         fprintf("Error: %s\n", exception.identifier)
