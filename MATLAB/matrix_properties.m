@@ -24,12 +24,16 @@ for i=1:length(files)
     else
         load(strcat(files(i).folder, '/', files(i).name), 'Problem');
     end
+
+    [~, matrix_name, ~] = fileparts(files(i).name);
+    fprintf("Matrix: %s\n", matrix_name);
+    
+    if(strcmp(matrix_name, "StocF-1465") || strcmp(matrix_name, "Flan_1565"))
+        continue
+    end
     
     A = Problem.A;
     clear Problem
-    
-    [~, matrix_name, ~] = fileparts(files(i).name);
-    fprintf("Matrix: %s\n", matrix_name);
 
     conditioning = condest(A);
     data = [matrix_name, string(nnz(A)), string(conditioning)];
