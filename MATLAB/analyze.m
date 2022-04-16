@@ -28,7 +28,13 @@ function [error, mem, time] = analyze(A)
     end
     
     % memory usage before execution (after loading matrix)
-    before_mem = memory;
+    try
+        before_mem = memory;
+    catch
+        [~, pid] = system('pgrep MATLAB');
+        [~, mem_usage] = system(['cat /proc/' strtrim(pid) '/status | grep VmSize']);
+        before_mem = round(str2double(strtrim(extractAfter(extractBefore(mem_usage, ' kB'), ':'))) / 1000);
+    end
 
     % problem parameters
     xe = ones(size(A, 1), 1);
@@ -61,9 +67,17 @@ function [error, mem, time] = analyze(A)
     end
 
     % --- memory usage estimation
-    after_mem = memory;
-    % difference and MB conversion
-    mem = (after_mem.MemUsedMATLAB - before_mem.MemUsedMATLAB) * 1e-6;
+    try
+        after_mem = memory;
+        % difference and MB conversion
+        mem = (after_mem.MemUsedMATLAB - before_mem.MemUsedMATLAB) * 1e-6;
+    catch
+        [~, pid] = system('pgrep MATLAB');
+        [~, mem_usage] = system(['cat /proc/' strtrim(pid) '/status | grep VmSize']);
+        after_mem = round(str2double(strtrim(extractAfter(extractBefore(mem_usage, ' kB'), ':'))) / 1000);
+
+        mem = after_mem - before_mem;
+    end
 
     % --- error estimation
     error = norm(x - xe, 2) / norm(xe, 2);
