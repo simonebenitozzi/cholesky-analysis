@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from Analysis.model.helper import read_data
+
 myDir = os.getcwd()
 sys.path.append(myDir)
 path = Path(myDir)
@@ -12,10 +14,13 @@ sys.path.append(a)
 
 
 def main():
-    from Analysis.resources.costants import RESOURCES_DIRECTORY
-    path = os.path.join(RESOURCES_DIRECTORY, "data.csv")
-    data = pd.read_csv(path)
+
+    data1 = read_data("data.csv")
+    data2 = read_data("data2.csv")
+    data = data1.join(data2)
+
     print(data.head())
+
 
 
 if __name__ == "__main__":
