@@ -1,13 +1,14 @@
 clear all, close all, clc %#ok<CLALL,DUALC> 
 
 cd ..
-current_path = pwd;
-files = dir(strcat(current_path, '\Matrix\*.mat'));
+prev_path = pwd;
+files = dir(strcat(prev_path, '\Matrix\*.mat'));
 cd MATLAB
 
-data = ["name", "error", "memory", "time", "language", "os"];
-filename = 'matlab.csv';
-writematrix(data, filename);
+%data = ["name", "rows", "columns", "error", "memory", "time", "language", "operatingSystem"];
+%writematrix(data, filename);
+
+filename = strcat(prev_path, '\Analysis\resources\', 'data.csv');
 
 clearvars -except files filename
 for i=1:length(files)
@@ -35,7 +36,7 @@ for i=1:length(files)
     fprintf("-----------------------------------\n\n");
     
     % "os" column will be 0 for Windows, 1 otherwise
-    data = [matrix_name, string(error), string(mem), string(time), string(0), string(double(~ispc))];
+    data = [matrix_name, string(size(A,1)), string(size(A,2)), string(error), string(mem), string(time), string(0), string(double(~ispc))];
     writematrix(data,filename,'WriteMode','append');
     
     % clear all variables except the ones needed for the iteration
