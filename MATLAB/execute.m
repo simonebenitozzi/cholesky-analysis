@@ -23,10 +23,15 @@ for i=1:length(files)
     
     [error, mem, time] = analyze(A);
     
-    fprintf("\nRelative error: %e\n", error)
-    fprintf("Time elapsed: %f seconds\n", time)
-    fprintf("Total memory used by MATLAB: %f MB\n", mem)
-
+    if (~isnan(error))
+        fprintf("\nRelative error: %e\n", error)
+    end
+    if (~isnan(time))
+        fprintf("Time elapsed: %f seconds\n", time)
+    end
+    if (~isnan(mem))
+        fprintf("Total memory used by MATLAB: %f MB\n", mem)
+    end
     fprintf("-----------------------------------\n\n");
     
     % "os" column will be 0 for Windows, 1 otherwise
