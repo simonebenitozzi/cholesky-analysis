@@ -9,6 +9,8 @@ def main():
     data = pd.merge(data1, data2, left_on='Name', right_on='Name')
     print(data)
 
+    data["Name"]
+
 
 if __name__ == "__main__":
     main()
