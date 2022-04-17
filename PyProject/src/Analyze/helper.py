@@ -1,21 +1,16 @@
-from platform import uname
-import platform
-import os
-import numpy as np
-from scipy.sparse import linalg as splinalg
-import sys
-import scipy.sparse as sparse
-from scipy.io import mmread
-from sksparse.cholmod import cholesky
-from scipy.sparse import csc_matrix
-import psutil
 import csv
-import math
+import os
+import platform
 import tracemalloc
+from platform import uname
 
-from sympy import true
+import numpy as np
+from scipy.io import mmread
+from scipy.sparse import csc_matrix
+from sksparse.cholmod import cholesky
 
 from Analysis.resources.costants import RESOURCES_DIRECTORY
+from PyProject.src.Analyze.constants import LANGUAGE, OPERATING_SYSTEM, ERROR, NAME, TIME, MEMORY, ROWS, COLUMNS
 
 
 def getB(matrix):
@@ -57,7 +52,7 @@ def relativeError(a):
     Compute the Euclidean distance between two vectors
     """
 
-    dist = np.linalg.norm(a-1)
+    dist = np.linalg.norm(a - 1)
     return dist
 
 
@@ -73,17 +68,18 @@ def endTrackMemory():
 
 def convert_size(size_bytes):
     r = float(size_bytes)
-    return r/(1024*1024)
+    return r / (1024 * 1024)
 
 
-def writeCSV(name, error, memory, time, **kwargs):
-
+def writeCSV(**kwargs):
     try:
         # csv data
-        data = [name, error, memory, time,
-                kwargs['language'], kwargs['operatingSystem']]
+        data = [kwargs[NAME], kwargs[ROWS],
+                kwargs[COLUMNS], kwargs[ERROR],
+                kwargs[MEMORY], kwargs[TIME],
+                kwargs[LANGUAGE], kwargs[OPERATING_SYSTEM]]
 
-        path = os.path.join(RESOURCES_DIRECTORY, "Py.csv")
+        path = os.path.join(RESOURCES_DIRECTORY, "data.csv")
         with open(path, 'a', encoding='UTF8', newline='') as f:
             writer = csv.writer(f)
 
@@ -94,7 +90,6 @@ def writeCSV(name, error, memory, time, **kwargs):
 
 
 def getOperatingSystem():
-
     typeOS = {
         "Windows": 0,
         "Linux": 1,

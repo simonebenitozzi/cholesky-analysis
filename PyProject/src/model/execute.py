@@ -1,13 +1,12 @@
-from pathlib import Path
-import sys
 import os
+import sys
+from pathlib import Path
 
 myDir = os.getcwd()
 sys.path.append(myDir)
 path = Path(myDir)
 a = str(path.parent.absolute())
 sys.path.append(a)
-
 
 if __name__ == "__main__":
 
@@ -25,9 +24,9 @@ if __name__ == "__main__":
             continue
 
         print("####################### START #######################\n")
-        print(f"Path: {path+name}")
+        print(f"Path: {path + name}")
         try:
-            analyzing.startAnalyze(path+name, name)
+            analyzing.startAnalyze(path + name, name)
         except Exception as e:
             print(e)
             continue
