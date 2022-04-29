@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 clear all, close all, clc %#ok<CLALL,DUALC> 
 
 cd ..
