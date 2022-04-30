@@ -1,4 +1,4 @@
-function [error, mem, time] = analyze(A)
+function [error, mem, time] = analyze_backslash(A)
 
 % Analyzes the Cholesky decomposition on the sparse Matrix given
 % in input
@@ -68,6 +68,4 @@ function [error, mem, time] = analyze(A)
 
     % --- error estimation
     error = norm(x - xe, 2) / norm(xe, 2);
-
->>>>>>> 86b121b2b060c050b55cf24805c14b6eb0fe14a8
 end

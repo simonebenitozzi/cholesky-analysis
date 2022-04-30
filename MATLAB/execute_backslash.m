@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 clear all, close all, clc %#ok<CLALL,DUALC> 
 
 cd ..
@@ -12,8 +11,10 @@ else
 end
 cd MATLAB
 
-data = ["Name", "Dim", "Nnz", "Cond", "Error", "Memory", "Time", "Language", "OperatingSystem"];
-writematrix(data, filename);
+if(~isfile(filename))
+    data = ["Name", "Dim", "Nnz", "Cond", "Error", "Memory", "Time", "Language", "OperatingSystem"];
+    writematrix(data, filename);
+end
 
 clearvars -except files filename
 for i=1:length(files)
@@ -32,6 +33,11 @@ for i=1:length(files)
     [~, matrix_name, ~] = fileparts(files(i).name);
     fprintf("Matrix: %s\n", matrix_name);
     
+    if (strcmp(matrix_name, "StocF-1465") == 1 || strcmp(matrix_name, "Flan_1565") == 1)
+        clearvars -except files filename i
+        fprintf("-----------------------------------\n\n");
+        continue
+    end    
     [error, mem, time] = analyze_backslash(A);
     
     if (~isnan(error) || ~isnan(time) || ~isnan(mem))
@@ -39,10 +45,8 @@ for i=1:length(files)
         fprintf("Time elapsed: %f seconds\n", time)
         fprintf("Total memory used by MATLAB: %f MB\n", mem)
 
-        conditioning = condest(A);
-
         % "os" column will be 0 for Windows, 1 otherwise
-        data = [matrix_name, string(size(A,1)), string(nnz(A)), string(conditioning), string(error), string(mem), string(time), string(0), string(double(~ispc))];
+        data = [matrix_name, string(size(A,1)), string(nnz(A)), string(error), string(mem), string(time), string(0), string(double(~ispc))];
         writematrix(data,filename,'WriteMode','append');
     end
 
