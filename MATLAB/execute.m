@@ -38,8 +38,6 @@ for i=1:length(files)
         fprintf("Time elapsed: %f seconds\n", time)
         fprintf("Total memory used by MATLAB: %f MB\n", mem)
 
-        conditioning = condest(A);
-
         % "os" column will be 0 for Windows, 1 otherwise
         data = [matrix_name, string(size(A,1)), string(nnz(A)), string(conditioning), string(error), string(mem), string(time), string(0), string(double(~ispc))];
         writematrix(data,filename,'WriteMode','append');
