@@ -12,7 +12,7 @@ end
 cd MATLAB
 
 if(~isfile(filename))
-    data = ["Name", "Dim", "Nnz", "Cond", "Error", "Memory", "Time", "Language", "OperatingSystem"];
+    data = ["Name", "Dim", "Nnz", "Error", "Memory", "Time", "Language", "OperatingSystem"];
     writematrix(data, filename);
 end
 
