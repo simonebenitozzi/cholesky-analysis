@@ -33,11 +33,6 @@ for i=1:length(files)
     [~, matrix_name, ~] = fileparts(files(i).name);
     fprintf("Matrix: %s\n", matrix_name);
     
-    if (strcmp(matrix_name, "StocF-1465") == 1 || strcmp(matrix_name, "Flan_1565") == 1)
-        clearvars -except files filename i
-        fprintf("-----------------------------------\n\n");
-        continue
-    end    
     [error, mem, time] = analyze_backslash(A);
     
     if (~isnan(error) || ~isnan(time) || ~isnan(mem))
