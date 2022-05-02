@@ -15,7 +15,6 @@ def get_data_sorted(name, data):
     data_matlab = data.loc[data['Language'] == 0]
     return data_python, data_matlab
 
-
 def read_data(name):
     from Analysis.resources.costants import RESOURCES_DIRECTORY
     path = os.path.join(RESOURCES_DIRECTORY, name)
