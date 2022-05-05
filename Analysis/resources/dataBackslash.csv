@@ -1,4 +1,4 @@
-Name,Dim,Nnz,Error,Memory,Time,Language,OperatingSystem
+Name,Rows,Nnz,Error,Memory,Time,Language,OS
 G3_circuit,1585478,7660826,3.5769e-12,133.4231,8.2539,0,0
 apache2,715176,4817870,4.3888e-11,23.167,5.5123,0,0
 cfd1,70656,1825580,1.0421e-13,2.8467,0.8906,0,0

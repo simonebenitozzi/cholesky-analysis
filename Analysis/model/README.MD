@@ -73,10 +73,4 @@ def show(x_name, y_name, title, **keywords):
     plt.show()
 ```
 
-- Controllare Overfitting. Il clustering che risultati offre?
-    - buoni, i cluser trovati 
-    - overfitting non è un problema, perchè non  abbiamo altri dati da testare e classificare
-- Analizzare Condizionamento ed Errore per ogni analisi (ws vs linux, py vs mat)
-    - fatto per tutti, meglio MATLAB
-    - O.S. è indifferente
 - Regressione lineare per Condizionamento e Errore
