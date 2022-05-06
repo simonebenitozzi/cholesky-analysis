@@ -13,7 +13,7 @@ from Analysis.model.costants import X_LABEL, Y_LABEL, LOG_SCALE
 plt.style.context('fivethirtyeight')
 
 
-def get_data_sorted(name, data):
+def get_data_sorted_by_language(name, data):
     """
     Takes the dataset and the name of column on which it sorts
     return python, matlab dataset
@@ -22,6 +22,17 @@ def get_data_sorted(name, data):
     data_python = data.loc[data['Language'] == 1]
     data_matlab = data.loc[data['Language'] == 0]
     return data_python, data_matlab
+
+
+def get_data_sorted_by_os(name, data):
+    """
+    Takes the dataset and the name of column on which it sorts
+    return windows, linux dataset
+    """
+    data = data.sort_values(by=[name])  # sort sulle dimensioni delle matrici in ordine crescente
+    data_windows = data.loc[data['OS'] == 0]
+    data_linux = data.loc[data['OS'] == 1]
+    return data_windows, data_linux
 
 
 def read_data(name):
