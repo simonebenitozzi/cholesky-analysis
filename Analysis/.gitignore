@@ -131,3 +131,4 @@ dmypy.json
 !/resources/data.csv
 
 !/resources/data2.csv
+!/model/data_aggregation.csv
