@@ -1,3 +1,7 @@
 X_LABEL = "X_LABEL"
 Y_LABEL = "Y_LABEL"
 LOG_SCALE = "LOG_SCALE"
+NAME = "Matrix (sorted by size)"
+ERROR = "Relative Error"
+MEMORY = "Memory"
+TIME = "Time Elapsed (seconds)"
