@@ -47,17 +47,16 @@ def write_data(df, name):
     df.to_csv(path, index=False)
 
 
-# TODO: legend1 e legend2 possono essere rimossi! basta usare x_name e y_name
-def plot(labels, data_py, data_matlab, x_name, y_name, title, legend1, legend2, **keywords):
+def plot(labels, data_py, data_matlab, x_name, y_name, title, legend1, legend2, path, **keywords):
     figure(figsize=(20, 6), dpi=80)
     title = title + " " + "(Line Plot)"
 
     plt.plot(labels, data_py, label=legend1, linestyle="-")
     plt.plot(labels, data_matlab, label=legend2, linestyle="--")
-    show(x_name, y_name, title, **keywords)
+    show(x_name, y_name, title, path, **keywords)
 
 
-def bar_plot(labels, data_py, data_matlab, x_name, y_name, title, legend1, legend2, **keywords):
+def bar_plot(labels, data_py, data_matlab, x_name, y_name, title, legend1, legend2, path, **keywords):
     figure(figsize=(20, 6), dpi=80)
     title = title + " " + "(Bar Plot)"
 
@@ -71,10 +70,10 @@ def bar_plot(labels, data_py, data_matlab, x_name, y_name, title, legend1, legen
     # Xticks
 
     plt.xticks(x_axis, labels)
-    show(x_name, y_name, title, **keywords)
+    show(x_name, y_name, title, path, **keywords)
 
 
-def show(x_name, y_name, title, **keywords):
+def show(x_name, y_name, title, path, **keywords):
     x_label, y_label = "", ""
     if X_LABEL in keywords.keys():
         x_label = f"({keywords[X_LABEL]})"
@@ -91,6 +90,8 @@ def show(x_name, y_name, title, **keywords):
     plt.gca().spines['right'].set_visible(False)
     plt.gca().spines['top'].set_visible(False)
     plt.legend(loc='upper center', ncol=2, frameon=False)
+
+    plt.savefig(path)
     plt.show()
 
 
@@ -118,3 +119,9 @@ def correlation(x, y, x_name, y_name):
     plt.plot(x, y_line, 'r', label=f"Correlation Coefficient {my_rho[0][1]}")
 
     show(x_name, y_name, title)
+
+
+def get_figures_path(folder_name, figure_title):
+    from Analysis.resources.figures.costants import FIGURES_DIRECTORY
+    path = os.path.join(FIGURES_DIRECTORY, folder_name, figure_title)
+    return path
