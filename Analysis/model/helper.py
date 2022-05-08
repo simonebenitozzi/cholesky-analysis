@@ -95,7 +95,7 @@ def show(x_name, y_name, title, path, **keywords):
     plt.show()
 
 
-def correlation(x, y, x_name, y_name):
+def correlation(x, y, x_name, y_name, path):
     figure(figsize=(20, 6), dpi=80)
     title = f"Scatter-plot variables '{x_name}' and '{y_name}'"
     my_rho = np.corrcoef(x, y)  # Correlation Coefficient
@@ -118,7 +118,7 @@ def correlation(x, y, x_name, y_name):
     plt.scatter(x, y)
     plt.plot(x, y_line, 'r', label=f"Correlation Coefficient {my_rho[0][1]}")
 
-    show(x_name, y_name, title)
+    show(x_name, y_name, title, path)
 
 
 def get_figures_path(folder_name, figure_title):
