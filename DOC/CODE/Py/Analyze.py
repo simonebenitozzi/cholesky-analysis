@@ -8,6 +8,7 @@ class Analyze:
                  language='Language', operatingSystem='OS')  # write header
 
     def __analyze(self, path):
+
         matrix = readMatrix(path)  # read matrix
         b = getB(matrix)  # get b = A*xe
 
