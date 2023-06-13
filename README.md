@@ -32,6 +32,14 @@ The symmetric and positive definite matrices that will be analyzed are as follow
 
 Link: https://it.overleaf.com/6993789178xtxsqsfnxnbk
 
+## Repository Contents
+The repository contains the following files:
+
+1. Analysis/: Directory to store the results of the analysis.
+1. DOC/: Directory to store the documentation files.
+1. MATLAB/: Directory containing the MATLAB implementation of the Cholesky method.
+1. PyProject/: Directory containing the Python implementation of the Cholesky method.
+1. README.md: This file, providing an overview of the project and repository.
 
 ## Getting Started
 
