@@ -1,4 +1,4 @@
-# Project-Metodi-del-Calcolo-Scientifico
+# Analysis of Cholesky Method for Matrix Decomposition
 
 This repository contains the source code and analysis for comparing open-source and proprietary software environments in solving a common problem. The main objective of this project is to derive valuable insights and considerations by comparing the implementation and functionality of the Cholesky method for solving linear systems with sparse, symmetric, and positive definite matrices across different programming environments and operating systems.
 
